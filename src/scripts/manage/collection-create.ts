@@ -11,6 +11,7 @@ export function initializeSaveCollection() {
 
 	button.addEventListener("click", async () => {
 		const selectedWork = getSelectedWork();
+
 		if (!selectedWork) {
 			message.textContent = "请先选择 Bangumi 作品.";
 			return;
@@ -20,6 +21,12 @@ export function initializeSaveCollection() {
 			message.textContent = "请先登录管理账号.";
 			return;
 		}
+
+		// 记录当前登录会话
+		const sessionToken = pb.authStore.token;
+
+		const isSameSession = () =>
+			pb.authStore.isValid && pb.authStore.token === sessionToken;
 
 		const getField = (id: string) =>
 			document.getElementById(id) as HTMLInputElement;
@@ -79,11 +86,16 @@ export function initializeSaveCollection() {
 				}),
 			});
 
+			if (!isSameSession()) return;
+
 			if (existingWorks.items.length > 0) {
 				workId = existingWorks.items[0].id;
 			} else {
 				// 2. 创建作品
 				const work = await pb.collection("works").create(workData);
+
+				if (!isSameSession()) return;
+
 				workId = work.id;
 				workCreated = true;
 			}
@@ -94,6 +106,8 @@ export function initializeSaveCollection() {
 				.getList(1, 1, {
 					filter: pb.filter("work = {:workId}", { workId }),
 				});
+
+			if (!isSameSession()) return;
 
 			if (existingCollections.items.length > 0) {
 				message.textContent = "这部作品已经收藏过了, 请不要重复添加.";
@@ -106,18 +120,25 @@ export function initializeSaveCollection() {
 				work: workId,
 			});
 
+			if (!isSameSession()) return;
+
 			message.textContent = "收藏保存成功!";
+
 			console.log("[Collection Save] Success", {
 				workId,
 				workCreated,
 			});
 		} catch (error) {
+			// 用户已经退出或切换账号时，不再显示旧请求的错误
+			if (!isSameSession()) return;
+
 			console.error("[Collection Save]", error);
 
 			message.textContent = workCreated
 				? "收藏保存失败: 作品资料可能已创建, 请检查 PocketBase 后重试."
 				: "保存失败, 请检查登录权限或网络连接.";
 		} finally {
+			// 无论请求成功、失败或中途退出，都恢复按钮状态
 			button.disabled = false;
 		}
 	});
@@ -135,6 +156,7 @@ export function initializeCollectionForm() {
 		event.preventDefault();
 
 		const selectedWork = getSelectedWork();
+
 		if (!selectedWork) {
 			preview.textContent = "请先选择作品。";
 			return;
@@ -165,17 +187,28 @@ export function initializeCollectionForm() {
 
 		preview.textContent = JSON.stringify({ workData, collectionData }, null, 2);
 
+		// 记录发起预览时的登录会话
+		const sessionToken = pb.authStore.token;
+
+		const isSameSession = () =>
+			pb.authStore.isValid && pb.authStore.token === sessionToken;
+
 		try {
-			if (!pb.authStore.isValid) {
+			if (!pb.authStore.isValid || !pb.authStore.record) {
 				preview.textContent += "\n\n请先登录管理账号.";
 				return;
 			}
 
+			// 查询作品是否已经存在
 			const existingWorks = await pb.collection("works").getList(1, 1, {
-				filter: pb.filter("bangumi_id = {:id}", {
+				filter: pb.filter("bangumi_id = {:id} && type = {:type}", {
 					id: workData.bangumi_id,
+					type: workData.type,
 				}),
 			});
+
+			// 退出登录后，不再更新预览内容
+			if (!isSameSession()) return;
 
 			if (existingWorks.totalItems > 0) {
 				preview.textContent += "\n\n该作品已经存在于 works 数据库中.";
@@ -185,6 +218,9 @@ export function initializeCollectionForm() {
 				preview.textContent += "\n\n该作品尚未收录, 可以新增.";
 			}
 		} catch (error) {
+			// 退出登录后，不显示旧请求的错误信息
+			if (!isSameSession()) return;
+
 			console.error("[Duplicate Check]", error);
 			preview.textContent += "\n\n重复检测失败, 暂时不能保存.";
 		}

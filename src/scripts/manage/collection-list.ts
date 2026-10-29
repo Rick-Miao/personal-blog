@@ -15,6 +15,14 @@ export type CollectionRecord = RecordModel & {
 	};
 };
 
+// 用于区分不同的列表加载请求
+let latestLoadId = 0;
+
+// 退出登录时，让所有尚未完成的加载请求失效
+export function invalidateManagedCollectionsLoad() {
+	latestLoadId++;
+}
+
 export async function loadManagedCollections(
 	onEdit: (record: CollectionRecord) => void,
 ) {
@@ -23,11 +31,23 @@ export async function loadManagedCollections(
 
 	if (!container || !message) return;
 
-	if (!pb.authStore.isValid) {
+	// 每次加载生成新的请求序号
+	const loadId = ++latestLoadId;
+
+	if (!pb.authStore.isValid || !pb.authStore.record) {
 		message.textContent = "请先登录管理账号。";
 		container.replaceChildren();
 		return;
 	}
+
+	// 记录开始加载时的登录会话
+	const sessionToken = pb.authStore.token;
+
+	// 只有当前会话的最新请求才允许更新界面
+	const canRender = () =>
+		loadId === latestLoadId &&
+		pb.authStore.isValid &&
+		pb.authStore.token === sessionToken;
 
 	message.textContent = "正在读取收藏……";
 	container.replaceChildren();
@@ -39,6 +59,9 @@ export async function loadManagedCollections(
 				expand: "work",
 				requestKey: null,
 			});
+
+		// 防止退出后或旧请求返回时重新显示私人收藏
+		if (!canRender()) return;
 
 		message.textContent = `共 ${records.length} 条收藏`;
 
@@ -75,13 +98,21 @@ export async function loadManagedCollections(
 			editButton.className = "btn-regular rounded-lg px-3 py-2";
 			editButton.textContent = "编辑";
 
-			editButton.addEventListener("click", () => onEdit(record));
+			editButton.addEventListener("click", () => {
+				// 防止退出后旧卡片继续打开编辑器
+				if (!canRender()) return;
+
+				onEdit(record);
+			});
 
 			info.append(title, details, visibility);
 			card.append(cover, info, editButton);
 			container.appendChild(card);
 		}
 	} catch (error) {
+		// 过期请求不显示错误
+		if (!canRender()) return;
+
 		console.error("[Manage Collections]", error);
 		message.textContent = "读取收藏失败，请查看 Console。";
 	}
@@ -102,7 +133,7 @@ export function initializeManageList(
 		void loadManagedCollections(onEdit);
 	});
 
-	if (pb.authStore.isValid) {
+	if (pb.authStore.isValid && pb.authStore.record) {
 		void loadManagedCollections(onEdit);
 	}
 }

@@ -3,7 +3,19 @@ import type { CollectionRecord } from "./collection-list";
 
 let editingCollectionId: string | null = null;
 
+// 每次打开或清除编辑器时更新版本
+let editVersion = 0;
+
+// 退出登录时清除当前编辑目标
+export function clearEditingCollection() {
+	editingCollectionId = null;
+	editVersion++;
+}
+
 export function openCollectionEditor(record: CollectionRecord) {
+	// 未登录时不允许打开编辑器
+	if (!pb.authStore.isValid || !pb.authStore.record) return;
+
 	const panel = document.querySelector<HTMLElement>("#edit-collection-panel");
 	const title = document.querySelector<HTMLElement>("#edit-work-title");
 	const status = document.querySelector<HTMLSelectElement>("#edit-status");
@@ -27,6 +39,7 @@ export function openCollectionEditor(record: CollectionRecord) {
 	}
 
 	editingCollectionId = record.id;
+	editVersion++;
 
 	title.textContent = record.expand?.work?.title ?? "未知作品";
 	status.value = record.status;
@@ -55,7 +68,7 @@ export function initializeEditCollection(onSaveSuccess: () => Promise<void>) {
 	form.addEventListener("submit", async (event) => {
 		event.preventDefault();
 
-		if (!editingCollectionId || !pb.authStore.isValid) {
+		if (!editingCollectionId || !pb.authStore.isValid || !pb.authStore.record) {
 			message.textContent = "请先登录并选择收藏。";
 			return;
 		}
@@ -106,19 +119,38 @@ export function initializeEditCollection(onSaveSuccess: () => Promise<void>) {
 			published: published.checked,
 		};
 
+		// 保存请求开始时的登录会话和编辑目标
+		const sessionToken = pb.authStore.token;
+		const currentEditVersion = editVersion;
+		const collectionId = editingCollectionId;
+
+		const isCurrentEdit = () =>
+			pb.authStore.isValid &&
+			pb.authStore.token === sessionToken &&
+			editVersion === currentEditVersion &&
+			editingCollectionId === collectionId;
+
 		button.disabled = true;
 		message.textContent = "正在保存修改……";
 
 		try {
-			await pb.collection("collections").update(editingCollectionId, data);
+			await pb.collection("collections").update(collectionId, data);
+
+			// 退出登录或切换编辑目标后，不再更新旧界面
+			if (!isCurrentEdit()) return;
 
 			message.textContent = "修改保存成功！";
 			await onSaveSuccess();
 		} catch (error) {
+			if (!isCurrentEdit()) return;
+
 			console.error("[Edit Collection]", error);
 			message.textContent = "保存失败，请检查 Console。";
 		} finally {
-			button.disabled = false;
+			// 只让当前编辑操作恢复按钮状态
+			if (isCurrentEdit() || editingCollectionId === null) {
+				button.disabled = false;
+			}
 		}
 	});
 }

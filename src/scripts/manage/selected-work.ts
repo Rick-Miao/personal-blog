@@ -10,7 +10,7 @@ export interface SelectedWork {
 
 let selectedWork: SelectedWork | null = null;
 
-export function setSelectedWork(work: SelectedWork) {
+export function setSelectedWork(work: SelectedWork | null) {
 	selectedWork = work;
 }
 
