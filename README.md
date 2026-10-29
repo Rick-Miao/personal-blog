@@ -1,99 +1,443 @@
-# 🍥Fuwari  
-![Node.js >= 20](https://img.shields.io/badge/node.js-%3E%3D20-brightgreen) 
-![pnpm >= 9](https://img.shields.io/badge/pnpm-%3E%3D9-blue) 
-[![DeepWiki](https://img.shields.io/badge/DeepWiki-saicaca%2Ffuwari-blue.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAyCAYAAAAnWDnqAAAAAXNSR0IArs4c6QAAA05JREFUaEPtmUtyEzEQhtWTQyQLHNak2AB7ZnyXZMEjXMGeK/AIi+QuHrMnbChYY7MIh8g01fJoopFb0uhhEqqcbWTp06/uv1saEDv4O3n3dV60RfP947Mm9/SQc0ICFQgzfc4CYZoTPAswgSJCCUJUnAAoRHOAUOcATwbmVLWdGoH//PB8mnKqScAhsD0kYP3j/Yt5LPQe2KvcXmGvRHcDnpxfL2zOYJ1mFwrryWTz0advv1Ut4CJgf5uhDuDj5eUcAUoahrdY/56ebRWeraTjMt/00Sh3UDtjgHtQNHwcRGOC98BJEAEymycmYcWwOprTgcB6VZ5JK5TAJ+fXGLBm3FDAmn6oPPjR4rKCAoJCal2eAiQp2x0vxTPB3ALO2CRkwmDy5WohzBDwSEFKRwPbknEggCPB/imwrycgxX2NzoMCHhPkDwqYMr9tRcP5qNrMZHkVnOjRMWwLCcr8ohBVb1OMjxLwGCvjTikrsBOiA6fNyCrm8V1rP93iVPpwaE+gO0SsWmPiXB+jikdf6SizrT5qKasx5j8ABbHpFTx+vFXp9EnYQmLx02h1QTTrl6eDqxLnGjporxl3NL3agEvXdT0WmEost648sQOYAeJS9Q7bfUVoMGnjo4AZdUMQku50McDcMWcBPvr0SzbTAFDfvJqwLzgxwATnCgnp4wDl6Aa+Ax283gghmj+vj7feE2KBBRMW3FzOpLOADl0Isb5587h/U4gGvkt5v60Z1VLG8BhYjbzRwyQZemwAd6cCR5/XFWLYZRIMpX39AR0tjaGGiGzLVyhse5C9RKC6ai42ppWPKiBagOvaYk8lO7DajerabOZP46Lby5wKjw1HCRx7p9sVMOWGzb/vA1hwiWc6jm3MvQDTogQkiqIhJV0nBQBTU+3okKCFDy9WwferkHjtxib7t3xIUQtHxnIwtx4mpg26/HfwVNVDb4oI9RHmx5WGelRVlrtiw43zboCLaxv46AZeB3IlTkwouebTr1y2NjSpHz68WNFjHvupy3q8TFn3Hos2IAk4Ju5dCo8B3wP7VPr/FGaKiG+T+v+TQqIrOqMTL1VdWV1DdmcbO8KXBz6esmYWYKPwDL5b5FA1a0hwapHiom0r/cKaoqr+27/XcrS5UwSMbQAAAABJRU5ErkJggg==)](https://deepwiki.com/saicaca/fuwari)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari?ref=badge_shield&issueType=license)
+# 🌌 Miao's Space
 
-A static blog template built with [Astro](https://astro.build).
+> A personal corner of the internet for writing, coding, anime, and books.
 
-[**🖥️ Live Demo (Vercel)**](https://fuwari.vercel.app)
+Miao's Space 是一个基于 [Astro](https://astro.build/) 和 [Fuwari](https://github.com/saicaca/fuwari) 构建的个人网站，用于记录技术学习、开发项目、生活随笔，以及收藏喜欢的动画和书籍。
 
-![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+项目在 Fuwari 原有博客功能的基础上，增加了动画收藏墙、小说书架和基于 PocketBase 的收藏管理后台。
 
-🌏 README in
-[**中文**](https://github.com/saicaca/fuwari/blob/main/docs/README.zh-CN.md) /
-[**日本語**](https://github.com/saicaca/fuwari/blob/main/docs/README.ja.md) /
-[**한국어**](https://github.com/saicaca/fuwari/blob/main/docs/README.ko.md) /
-[**Español**](https://github.com/saicaca/fuwari/blob/main/docs/README.es.md) /
-[**ไทย**](https://github.com/saicaca/fuwari/blob/main/docs/README.th.md) /
-[**Tiếng Việt**](https://github.com/saicaca/fuwari/blob/main/docs/README.vi.md) /
-[**Bahasa Indonesia**](https://github.com/saicaca/fuwari/blob/main/docs/README.id.md) (Provided by the community and may not always be up-to-date)
+![Astro](https://img.shields.io/badge/Astro-5-BC52EE?logo=astro)
+![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![PocketBase](https://img.shields.io/badge/PocketBase-SQLite-B8DBE4)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## ✨ Features
 
-- [x] Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
-- [x] Smooth animations and page transitions
-- [x] Light / dark mode
-- [x] Customizable theme colors & banner
-- [x] Responsive design
-- [x] Search functionality with [Pagefind](https://pagefind.app/)
-- [x] [Markdown extended features](https://github.com/saicaca/fuwari?tab=readme-ov-file#-markdown-extended-syntax)
-- [x] Table of contents
-- [x] RSS feed
+### 📝 Personal Blog
+
+基于 Fuwari 的静态博客系统。
+
+- 使用 Markdown 编写和管理文章
+- 文章分类、标签与归档
+- 文章目录（Table of Contents）
+- Expressive Code 代码高亮
+- 扩展 Markdown 语法
+- Pagefind 静态全文搜索
+- RSS 订阅
+- 响应式页面布局
+- 浅色、深色和跟随系统主题
+- 平滑的页面过渡动画
+
+文章由 Astro 在构建时生成静态 HTML，内容通过 Git 进行版本管理。
+
+### 🎬 Anime Collection
+
+独立的动画收藏页面，以海报墙形式展示个人动画收藏。
+
+- 展示动画封面和标题
+- 记录观看状态
+- 记录个人评分和观看进度
+- 区分公开与私人收藏
+- 使用 Bangumi API 获取动画资料
+
+支持的收藏状态包括：
+
+| Status | Description |
+|---|---|
+| `wish` | 想看 |
+| `in_progress` | 在看 |
+| `completed` | 已看完 |
+| `on_hold` | 搁置 |
+| `dropped` | 弃番 |
+
+### 📚 Book Collection
+
+独立的书籍收藏页面，用于展示个人阅读记录。
+
+- 展示书籍封面和标题
+- 支持小说、轻小说及其他书籍
+- 记录阅读状态
+- 记录个人评分与阅读进度
+- 支持个人短评
+- 区分公开与私人收藏
+
+动画与书籍共用同一套收藏数据结构，并通过作品类型进行区分。
+
+### ⚙️ Collection Management
+
+基于 PocketBase 构建的个人收藏管理后台。
+
+**身份认证**
+
+- 使用 PocketBase Auth Collection 进行登录
+- 管理员身份认证
+- 保持有效的登录状态
+- 通过 API Rules 控制数据访问权限
+
+**Bangumi 集成**
+
+- 按动画或书籍类型搜索作品
+- 显示搜索结果、封面和 Bangumi ID
+- 自动获取作品标题、封面与简介
+- 检查作品是否已存在于数据库
+
+**收藏管理**
+
+- 添加动画和书籍收藏
+- 查看所有已有收藏
+- 编辑收藏状态
+- 修改个人评分
+- 更新观看或阅读进度
+- 添加和修改个人短评
+- 设置公开或私人收藏
+- 检测重复作品和重复收藏
+
+当前收藏管理系统已经支持 Create、Read 和 Update 操作。
+
+删除收藏、退出登录和更多管理功能仍在开发计划中。
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|---|---|
+| Framework | Astro 5 |
+| UI Components | Svelte 5 |
+| Programming Language | TypeScript |
+| Styling | Tailwind CSS |
+| Blog Theme | Fuwari |
+| Content Management | Markdown / Astro Content Collections |
+| Backend | PocketBase |
+| Database | SQLite |
+| External Data | Bangumi API |
+| Search Engine | Pagefind |
+| Code Quality | Biome |
+| Continuous Integration | GitHub Actions |
+| Package Manager | pnpm |
+
+### Architecture
+
+Miao's Space 采用静态博客与动态收藏系统相结合的架构。
+
+**博客部分**
+
+- Markdown 文件保存在 Git 仓库
+- Astro Content Collections 管理文章数据
+- Astro 在构建阶段生成静态页面
+- Pagefind 为静态内容建立搜索索引
+
+**收藏部分**
+
+- Astro 提供动画墙、小说书架和管理页面
+- 浏览器通过 PocketBase API 读取公开收藏
+- 管理后台使用 PocketBase SDK 进行认证和数据操作
+- Bangumi API 提供动画与书籍的基础资料
+- PocketBase 使用 SQLite 保存作品和收藏记录
+
+```text
+                 Miao's Space
+                      |
+              Astro + Svelte
+                      |
+         +------------+------------+
+         |                         |
+    Personal Blog             Collections
+         |                         |
+      Markdown              Anime / Books
+         |                         |
+  Astro Static Build          PocketBase API
+         |                         |
+      Pagefind                 SQLite Database
+                                   |
+                              Bangumi API
+```
+
+## 🏗️ Project Structure
+
+```text
+src/
+├── assets/                     # Images and static assets
+├── components/
+│   ├── manage/
+│   │   ├── LoginForm.astro
+│   │   ├── BangumiSearch.astro
+│   │   ├── CollectionForm.astro
+│   │   └── CollectionManager.astro
+│   └── ...                     # Fuwari components
+│
+├── content/
+│   ├── posts/                  # Markdown blog posts
+│   └── spec/                   # Site content
+│
+├── layouts/                    # Astro layouts
+│
+├── lib/
+│   ├── bangumi.ts              # Bangumi API client
+│   └── pocketbase.ts           # PocketBase SDK client
+│
+├── pages/
+│   ├── anime.astro             # Anime collection wall
+│   ├── books.astro             # Book collection shelf
+│   ├── manage/
+│   │   └── index.astro         # Management dashboard
+│   └── ...                     # Blog pages
+│
+├── scripts/
+│   ├── collection-wall.ts      # Public collection rendering
+│   └── manage/
+│       ├── auth.ts
+│       ├── search.ts
+│       ├── selected-work.ts
+│       ├── collection-create.ts
+│       ├── collection-list.ts
+│       └── collection-edit.ts
+│
+├── styles/                     # Global styles
+├── config.ts                   # Website configuration
+└── ...
+```
+
+管理后台使用模块化结构，将身份认证、Bangumi 搜索、新增收藏、收藏列表和编辑功能分别维护，减少页面之间的耦合。
 
 ## 🚀 Getting Started
 
-1. Create your blog repository:
-    - [Generate a new repository](https://github.com/saicaca/fuwari/generate) from this template or fork this repository.
-    - Or run one of the following commands:
-       ```sh
-       npm create fuwari@latest
-       yarn create fuwari
-       pnpm create fuwari@latest
-       bun create fuwari@latest
-       deno run -A npm:create-fuwari@latest
-       ```
-2. To edit your blog locally, clone your repository, run `pnpm install` to install dependencies.
-    - Install [pnpm](https://pnpm.io) `npm install -g pnpm` if you haven't.
-3. Edit the config file `src/config.ts` to customize your blog.
-4. Run `pnpm new-post <filename>` to create a new post and edit it in `src/content/posts/`.
-5. Deploy your blog to Vercel, Netlify, GitHub Pages, etc. following [the guides](https://docs.astro.build/en/guides/deploy/). You need to edit the site configuration in `astro.config.mjs` before deployment.
+### Requirements
 
-## 📝 Frontmatter of Posts
+- Node.js 20+
+- pnpm 9+
+- 一个可访问的 PocketBase 实例（收藏功能需要）
+
+### Installation
+
+克隆项目：
+
+```bash
+git clone https://github.com/Rick-Miao/personal-blog.git
+cd personal-blog
+```
+
+安装依赖：
+
+```bash
+pnpm install
+```
+
+启动本地开发服务器：
+
+```bash
+pnpm dev
+```
+
+访问：
+
+```text
+http://localhost:4321
+```
+
+### Configuration
+
+网站基础配置位于：
+
+```text
+src/config.ts
+```
+
+可以在这里修改网站标题、导航栏、主题颜色及其他基本设置。
+
+PocketBase 客户端配置位于：
+
+```text
+src/lib/pocketbase.ts
+```
+
+项目目前连接独立部署的 PocketBase 服务。
+
+若需要使用自己的 PocketBase 实例，请修改 API 地址，并配置对应的数据集合和访问权限。
+
+当前收藏系统主要使用两个 Base Collections：
+
+- `works`：存储动画、书籍等作品的基础资料。
+- `collections`：存储个人收藏状态、评分、进度、短评及公开设置。
+
+管理身份通过 PocketBase 的 `users` Auth Collection 实现。
+
+**注意：** 仅启动 Astro 开发服务器并不能自动创建 PocketBase 数据库。收藏页面和管理后台需要独立、可正常访问且配置正确的后端服务。
+
+### Development
+
+```bash
+pnpm dev
+```
+
+### Production Build
+
+```bash
+pnpm build
+```
+
+构建完成后，静态网站文件位于：
+
+```text
+dist/
+```
+
+本地预览生产构建：
+
+```bash
+pnpm preview
+```
+
+## 📝 Writing Posts
+
+博客文章保存在：
+
+```text
+src/content/posts/
+```
+
+可以手动创建 Markdown 文件，也可以使用 Fuwari 提供的文章创建脚本。
+
+示例 Frontmatter：
 
 ```yaml
 ---
 title: My First Blog Post
-published: 2023-09-09
-description: This is the first post of my new Astro blog.
-image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
+published: 2026-10-29
+description: My first article on Miao's Space.
+tags: [Development, Astro]
+category: Technology
 draft: false
-lang: jp      # Set only if the post's language differs from the site's language in `config.ts`
 ---
 ```
 
-## 🧩 Markdown Extended Syntax
+其中：
 
-In addition to Astro's default support for [GitHub Flavored Markdown](https://github.github.com/gfm/), several extra Markdown features are included:
+| Field | Description |
+|---|---|
+| `title` | 文章标题 |
+| `published` | 发布时间 |
+| `description` | 文章描述 |
+| `tags` | 文章标签 |
+| `category` | 文章分类 |
+| `draft` | 是否为草稿 |
 
-- Admonitions ([Preview and Usage](https://fuwari.vercel.app/posts/markdown-extended/#admonitions))
-- GitHub repository cards ([Preview and Usage](https://fuwari.vercel.app/posts/markdown-extended/#github-repository-cards))
-- Enhanced code blocks with Expressive Code ([Preview](https://fuwari.vercel.app/posts/expressive-code/) / [Docs](https://expressive-code.com/))
+文章内容使用 Markdown 编写，并在 Astro 构建时转换为静态页面。
 
-## ⚡ Commands
+## 🧪 Code Quality
 
-All commands are run from the root of the project, from a terminal:
+项目使用 Biome、Astro Check 和 GitHub Actions 维护代码质量。
 
-| Command                    | Action                                              |
-|:---------------------------|:----------------------------------------------------|
-| `pnpm install`             | Installs dependencies                               |
-| `pnpm dev`                 | Starts local dev server at `localhost:4321`         |
-| `pnpm build`               | Build your production site to `./dist/`             |
-| `pnpm preview`             | Preview your build locally, before deploying        |
-| `pnpm check`               | Run checks for errors in your code                  |
-| `pnpm format`              | Format your code using Biome                        |
-| `pnpm new-post <filename>` | Create a new post                                   |
-| `pnpm astro ...`           | Run CLI commands like `astro add`, `astro check`    |
-| `pnpm astro --help`        | Get help using the Astro CLI                        |
+### Astro Type Check
 
-## ✏️ Contributing
+```bash
+pnpm exec astro check
+```
 
-Check out the [Contributing Guide](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md) for details on how to contribute to this project.
+### Biome
+
+```bash
+pnpm exec biome ci ./src
+```
+
+### Production Build
+
+```bash
+pnpm run build
+```
+
+GitHub Actions 会在代码推送或 Pull Request 时执行相应检查。
+
+## 🔐 Security
+
+收藏系统通过 PocketBase API Rules 实现访问控制。
+
+- 匿名访问者仅能读取允许公开的收藏内容
+- 私人收藏不对匿名访问者公开
+- 管理操作需要经过身份认证
+- 新增、编辑等操作由 PocketBase 服务端权限规则限制
+- 管理员密码和认证 Token 不应提交到 Git 仓库
+- 自行部署时需要配置自己的 PocketBase 用户和 API Rules
+
+公开 GitHub 仓库并不意味着公开数据库中的私人收藏信息。
+
+实际数据安全仍取决于 PocketBase 权限规则、部署配置和账号安全。
+
+## 🗺️ Roadmap
+
+### ✅ Completed
+
+- [x] Personal blog based on Fuwari
+- [x] Markdown articles and static site generation
+- [x] Responsive website layout
+- [x] Light and dark themes
+- [x] Pagefind search integration
+- [x] Anime collection wall
+- [x] Book collection shelf
+- [x] Bangumi API integration
+- [x] PocketBase authentication
+- [x] Collection creation
+- [x] Collection listing and editing
+- [x] Public and private collection visibility
+- [x] Duplicate collection detection
+- [x] Modular collection management architecture
+- [x] GitHub Actions CI checks
+
+### 🚧 Planned
+
+**Collection Management**
+
+- [ ] Collection deletion
+- [ ] Logout and improved session management
+- [ ] Cancel editing
+- [ ] Automatically refresh collection list after creation
+- [ ] Collection filtering and sorting
+- [ ] Improved management dashboard
+
+**Blog & Community**
+
+- [ ] Article comment system
+- [ ] Guest comments with nickname
+- [ ] Comment moderation and approval
+- [ ] Spam protection and rate limiting
+- [ ] Comment notifications
+
+**Website & Deployment**
+
+- [ ] Automated deployment
+- [ ] Production website launch
+- [ ] Further performance optimization
+- [ ] Mobile user experience improvements
+- [ ] Documentation for self-hosted deployment
+
+Roadmap 中的功能属于开发计划，具体实现方案和优先级可能随项目发展调整。
+
+## 🙏 Acknowledgements
+
+Miao's Space is based on [Fuwari](https://github.com/saicaca/fuwari), an open-source Astro blog template created by [saicaca](https://github.com/saicaca).
+
+The original Fuwari project provides the foundation for the blog layout, styling, Markdown features, navigation, and other core functionality.
+
+This project builds upon Fuwari with additional features, including an anime collection wall, a book collection shelf, Bangumi API integration, and a PocketBase-powered collection management system.
+
+Special thanks to:
+
+- [Fuwari](https://github.com/saicaca/fuwari) — Original blog template
+- [Astro](https://astro.build/) — Web framework
+- [Svelte](https://svelte.dev/) — Interactive UI components
+- [Tailwind CSS](https://tailwindcss.com/) — Styling
+- [PocketBase](https://pocketbase.io/) — Backend and database
+- [Bangumi](https://bgm.tv/) — Anime and book information
+- [Pagefind](https://pagefind.app/) — Static search engine
+- [Biome](https://biomejs.dev/) — Code quality tools
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is based on Fuwari, originally created by saicaca and distributed under the MIT License.
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari.svg?type=large&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari?ref=badge_large&issueType=license)
+The original copyright notices and license terms are retained in the [LICENSE](./LICENSE) file.
+
+Modifications and additional functionality have been developed for Miao's Space.
+
+---
+
+Made with ☕ and curiosity.
