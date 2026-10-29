@@ -12,7 +12,7 @@
         刷新收藏
     </button>
 
-    <p id="manage-list-message" role="status"></p>
+    <p id="manage-list-message" role="status" aria-live="polite"></p>
 
     <div id="manage-list" class="flex flex-col gap-3 mt-4"></div>
 
@@ -72,9 +72,22 @@
                 公开展示
             </label>
 
-            <button type="submit" class="btn-regular rounded-lg p-3">
-                保存修改
-            </button>
+            <div class="flex flex-wrap gap-3">
+                <button
+                    type="submit"
+                    class="btn-regular rounded-lg p-3"
+                >
+                    保存修改
+                </button>
+
+                <button
+                    id="cancel-edit"
+                    type="button"
+                    class="btn-regular rounded-lg p-3"
+                >
+                    取消
+                </button>
+            </div>
         </form>
 
         <p
@@ -85,3 +98,58 @@
         ></p>
     </section>
 </section>
+
+<!-- 删除确认弹窗 -->
+<dialog
+    id="delete-collection-dialog"
+    aria-labelledby="delete-dialog-title"
+    aria-describedby="delete-dialog-description"
+    class="w-[calc(100%-2rem)] max-w-md rounded-2xl border border-[var(--line-divider)] bg-[var(--card-bg)] p-6 text-neutral-900 shadow-2xl backdrop:bg-black/60 dark:text-neutral-100"
+>
+    <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+            <div
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-500/10 text-red-500"
+                aria-hidden="true"
+            >
+                <span class="text-xl font-bold">!</span>
+            </div>
+
+            <h2 id="delete-dialog-title" class="text-xl font-bold">
+                确认删除收藏？
+            </h2>
+        </div>
+
+        <div id="delete-dialog-description" class="space-y-3">
+            <p class="opacity-80">你确定要删除以下收藏吗？</p>
+
+            <p
+                id="delete-work-title"
+                class="break-words rounded-lg bg-[var(--btn-regular-bg)] p-3 font-bold"
+            ></p>
+
+            <p class="text-sm text-red-500">
+                删除后，个人评分、进度和短评将一起删除。
+                此操作无法撤销。
+            </p>
+        </div>
+
+        <form method="dialog" class="flex justify-end gap-3 pt-2">
+            <button
+                type="submit"
+                value="cancel"
+                class="btn-regular rounded-lg px-5 py-2"
+            >
+                取消
+            </button>
+
+            <button
+                type="submit"
+                value="delete"
+                class="rounded-lg bg-red-600 px-5 py-2 font-medium text-white transition-colors hover:bg-red-700"
+            >
+                确认删除
+            </button>
+        </form>
+    </div>
+</dialog>

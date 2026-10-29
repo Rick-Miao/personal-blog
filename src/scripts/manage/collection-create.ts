@@ -1,4 +1,6 @@
 import { pb } from "../../lib/pocketbase";
+import { openCollectionEditor } from "./collection-edit";
+import { loadManagedCollections } from "./collection-list";
 import { getSelectedWork } from "./selected-work";
 
 export function initializeSaveCollection() {
@@ -123,6 +125,8 @@ export function initializeSaveCollection() {
 			if (!isSameSession()) return;
 
 			message.textContent = "收藏保存成功!";
+
+			await loadManagedCollections(openCollectionEditor);
 
 			console.log("[Collection Save] Success", {
 				workId,

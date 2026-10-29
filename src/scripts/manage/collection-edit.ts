@@ -64,6 +64,23 @@ export function initializeEditCollection(onSaveSuccess: () => Promise<void>) {
 	if (!form || !message || form.dataset.initialized === "true") return;
 
 	form.dataset.initialized = "true";
+	const cancelButton =
+		document.querySelector<HTMLButtonElement>("#cancel-edit");
+
+	cancelButton?.addEventListener("click", () => {
+		clearEditingCollection();
+
+		const panel = document.querySelector<HTMLElement>("#edit-collection-panel");
+
+		panel?.classList.add("hidden");
+		form.reset();
+		message.textContent = "";
+
+		const title = document.querySelector<HTMLElement>("#edit-work-title");
+		if (title) {
+			title.textContent = "";
+		}
+	});
 
 	form.addEventListener("submit", async (event) => {
 		event.preventDefault();

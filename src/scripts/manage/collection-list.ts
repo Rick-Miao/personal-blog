@@ -18,8 +18,60 @@ export type CollectionRecord = RecordModel & {
 
 let latestLoadId = 0;
 
+// 退出登录时，让正在加载的旧请求失效
 export function invalidateManagedCollectionsLoad() {
 	latestLoadId++;
+}
+
+// 显示自定义删除确认弹窗
+function confirmCollectionDeletion(workTitle: string): Promise<boolean> {
+	const dialog = document.querySelector<HTMLDialogElement>(
+		"#delete-collection-dialog",
+	);
+	const title = document.querySelector<HTMLElement>("#delete-work-title");
+
+	if (!dialog || !title || dialog.open) {
+		return Promise.resolve(false);
+	}
+
+	if (!pb.authStore.isValid || !pb.authStore.record) {
+		return Promise.resolve(false);
+	}
+
+	title.textContent = workTitle;
+	dialog.returnValue = "";
+
+	const sessionToken = pb.authStore.token;
+
+	return new Promise<boolean>((resolve) => {
+		let unsubscribe = () => {};
+
+		const handleClose = () => {
+			dialog.removeEventListener("close", handleClose);
+			unsubscribe();
+
+			const confirmed =
+				dialog.returnValue === "delete" &&
+				pb.authStore.isValid &&
+				pb.authStore.token === sessionToken;
+
+			title.textContent = "";
+			resolve(confirmed);
+		};
+
+		dialog.addEventListener("close", handleClose);
+
+		// 如果弹窗打开时退出登录，立即关闭
+		unsubscribe = pb.authStore.onChange(() => {
+			if (!pb.authStore.isValid || pb.authStore.token !== sessionToken) {
+				if (dialog.open) {
+					dialog.close("cancel");
+				}
+			}
+		});
+
+		dialog.showModal();
+	});
 }
 
 export async function loadManagedCollections(
@@ -106,18 +158,16 @@ export async function loadManagedCollections(
 			const deleteButton = document.createElement("button");
 			deleteButton.type = "button";
 			deleteButton.className =
-				"rounded-lg border border-red-500/50 px-3 py-2 text-red-500 hover:bg-red-500/10 transition-colors";
+				"rounded-lg border border-red-500/50 px-3 py-2 text-red-500 transition-colors hover:bg-red-500/10";
 			deleteButton.textContent = "删除";
 
 			deleteButton.addEventListener("click", async () => {
 				if (!canRender() || deleteButton.disabled) return;
 
-				const confirmed = window.confirm(
-					`确定要删除「${work.title}」吗？\n\n这将删除该作品的收藏记录，包括评分、进度和短评。\n此操作无法撤销。`,
-				);
+				// 等待用户确认
+				const confirmed = await confirmCollectionDeletion(work.title);
 
-				if (!confirmed) return;
-				if (!canRender()) return;
+				if (!confirmed || !canRender()) return;
 
 				deleteButton.disabled = true;
 				editButton.disabled = true;
@@ -125,31 +175,40 @@ export async function loadManagedCollections(
 				message.textContent = `正在删除「${work.title}」……`;
 
 				try {
+					// 只删除收藏记录，不删除作品资料
 					await pb.collection("collections").delete(record.id);
 
-					// 退出登录或发生新的列表加载后，不再更新旧页面
 					if (!canRender()) return;
 
-					// 清除当前编辑目标，防止保留已删除记录的 ID
+					// 清除旧编辑目标
 					clearEditingCollection();
 
 					const editPanel = document.querySelector<HTMLElement>(
 						"#edit-collection-panel",
 					);
+
 					const editForm = document.querySelector<HTMLFormElement>(
 						"#edit-collection-form",
 					);
+
+					const editTitle =
+						document.querySelector<HTMLElement>("#edit-work-title");
+
 					const editMessage =
 						document.querySelector<HTMLElement>("#edit-message");
 
 					editPanel?.classList.add("hidden");
 					editForm?.reset();
 
+					if (editTitle) {
+						editTitle.textContent = "";
+					}
+
 					if (editMessage) {
 						editMessage.textContent = "";
 					}
 
-					// 删除成功后重新加载收藏列表
+					// 删除成功后刷新列表
 					await loadManagedCollections(onEdit);
 
 					if (isSameSession()) {
@@ -162,7 +221,7 @@ export async function loadManagedCollections(
 					if (!canRender()) return;
 
 					console.error("[Collection Delete]", error);
-					message.textContent = `删除「${work.title}」失败，请检查登录权限或网络连接。`;
+					message.textContent = `删除「${work.title}」失败，请检查权限或网络连接。`;
 				} finally {
 					deleteButton.disabled = false;
 					editButton.disabled = false;
