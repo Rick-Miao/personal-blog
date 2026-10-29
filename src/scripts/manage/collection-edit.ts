@@ -1,0 +1,124 @@
+import { pb } from "../../lib/pocketbase";
+import type { CollectionRecord } from "./collection-list";
+
+let editingCollectionId: string | null = null;
+
+export function openCollectionEditor(record: CollectionRecord) {
+	const panel = document.querySelector<HTMLElement>("#edit-collection-panel");
+	const title = document.querySelector<HTMLElement>("#edit-work-title");
+	const status = document.querySelector<HTMLSelectElement>("#edit-status");
+	const score = document.querySelector<HTMLInputElement>("#edit-score");
+	const progress = document.querySelector<HTMLInputElement>("#edit-progress");
+	const comment = document.querySelector<HTMLTextAreaElement>("#edit-comment");
+	const published = document.querySelector<HTMLInputElement>("#edit-published");
+	const message = document.querySelector<HTMLElement>("#edit-message");
+
+	if (
+		!panel ||
+		!title ||
+		!status ||
+		!score ||
+		!progress ||
+		!comment ||
+		!published ||
+		!message
+	) {
+		return;
+	}
+
+	editingCollectionId = record.id;
+
+	title.textContent = record.expand?.work?.title ?? "未知作品";
+	status.value = record.status;
+	score.value = String(record.score ?? 0);
+	progress.value = String(record.progress ?? 0);
+	comment.value = record.comment ?? "";
+	published.checked = record.published === true;
+
+	message.textContent = "";
+	panel.classList.remove("hidden");
+
+	panel.scrollIntoView({
+		behavior: "smooth",
+		block: "start",
+	});
+}
+
+export function initializeEditCollection(onSaveSuccess: () => Promise<void>) {
+	const form = document.querySelector<HTMLFormElement>("#edit-collection-form");
+	const message = document.querySelector<HTMLElement>("#edit-message");
+
+	if (!form || !message || form.dataset.initialized === "true") return;
+
+	form.dataset.initialized = "true";
+
+	form.addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		if (!editingCollectionId || !pb.authStore.isValid) {
+			message.textContent = "请先登录并选择收藏。";
+			return;
+		}
+
+		const status = form.querySelector<HTMLSelectElement>("#edit-status");
+		const score = form.querySelector<HTMLInputElement>("#edit-score");
+		const progress = form.querySelector<HTMLInputElement>("#edit-progress");
+		const comment = form.querySelector<HTMLTextAreaElement>("#edit-comment");
+		const published = form.querySelector<HTMLInputElement>("#edit-published");
+		const button = form.querySelector<HTMLButtonElement>(
+			'button[type="submit"]',
+		);
+
+		if (!status || !score || !progress || !comment || !published || !button) {
+			return;
+		}
+
+		const scoreValue = Number(score.value);
+		const progressValue = Number(progress.value);
+
+		const validStatuses = [
+			"wish",
+			"in_progress",
+			"completed",
+			"on_hold",
+			"dropped",
+		];
+
+		if (
+			!validStatuses.includes(status.value) ||
+			score.value.trim() === "" ||
+			progress.value.trim() === "" ||
+			!Number.isInteger(scoreValue) ||
+			scoreValue < 0 ||
+			scoreValue > 10 ||
+			!Number.isInteger(progressValue) ||
+			progressValue < 0
+		) {
+			message.textContent = "请检查收藏状态、评分和进度。";
+			return;
+		}
+
+		const data = {
+			status: status.value,
+			score: scoreValue,
+			progress: progressValue,
+			comment: comment.value,
+			published: published.checked,
+		};
+
+		button.disabled = true;
+		message.textContent = "正在保存修改……";
+
+		try {
+			await pb.collection("collections").update(editingCollectionId, data);
+
+			message.textContent = "修改保存成功！";
+			await onSaveSuccess();
+		} catch (error) {
+			console.error("[Edit Collection]", error);
+			message.textContent = "保存失败，请检查 Console。";
+		} finally {
+			button.disabled = false;
+		}
+	});
+}

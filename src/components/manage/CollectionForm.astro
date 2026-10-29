@@ -1,0 +1,84 @@
+<section
+    id="collection-editor"
+    class="mt-6 hidden border-t border-[var(--line-divider)] pt-6"
+>
+    <h2 class="text-xl font-bold mb-4">添加到我的收藏</h2>
+
+    <p id="selected-work-title" class="font-bold mb-4"></p>
+
+    <form id="collection-form" class="flex flex-col gap-4">
+        <label class="flex flex-col gap-2">
+            收藏状态
+            <select id="collection-status" class="rounded-lg p-3 text-black">
+                <option value="wish">想看 / 想读</option>
+                <option value="in_progress">在看 / 在读</option>
+                <option value="completed">已完成</option>
+                <option value="on_hold">搁置</option>
+                <option value="dropped">弃番 / 弃读</option>
+            </select>
+        </label>
+
+        <label class="flex flex-col gap-2">
+            个人评分(0 表示暂不评分)
+            <input
+                id="collection-score"
+                type="number"
+                min="0"
+                max="10"
+                step="1"
+                value="0"
+                class="rounded-lg p-3 text-black"
+            />
+        </label>
+
+        <label class="flex flex-col gap-2">
+            观看集数 / 阅读进度
+            <input
+                id="collection-progress"
+                type="number"
+                min="0"
+                step="1"
+                value="0"
+                class="rounded-lg p-3 text-black"
+            />
+        </label>
+
+        <label class="flex flex-col gap-2">
+            个人短评
+            <textarea
+                id="collection-comment"
+                rows="3"
+                class="rounded-lg p-3 text-black"
+            ></textarea>
+        </label>
+
+        <label class="flex items-center gap-2">
+            <input id="collection-published" type="checkbox" />
+            公开展示在个人网站
+        </label>
+
+        <button type="submit" class="btn-regular rounded-lg p-3">
+            预览收藏数据
+        </button>
+    </form>
+
+    <pre
+        id="collection-preview"
+        class="mt-4 whitespace-pre-wrap break-all text-sm"
+    ></pre>
+
+    <button
+        id="save-collection"
+        type="button"
+        class="btn-regular rounded-lg p-3 mt-4"
+    >
+        保存到 PocketBase
+    </button>
+
+    <p
+        id="save-message"
+        class="mt-3"
+        role="status"
+        aria-live="polite"
+    ></p>
+</section>

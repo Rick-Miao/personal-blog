@@ -1,0 +1,26 @@
+
+<section class="mt-8 border-t border-[var(--line-divider)] pt-6">
+    <h2 class="text-xl font-bold mb-4">搜索 Bangumi 作品</h2>
+
+    <form id="search-form" class="flex flex-col gap-3">
+        <select id="search-type" class="rounded-lg p-3 text-black">
+            <option value="2">动画</option>
+            <option value="1">书籍 / 轻小说</option>
+        </select>
+
+        <input
+            id="search-keyword"
+            type="search"
+            placeholder="输入作品名称"
+            required
+            class="rounded-lg p-3 text-black"
+        />
+
+        <button type="submit" class="btn-regular rounded-lg p-3">
+            搜索作品
+        </button>
+    </form>
+
+    <p id="search-message" class="mt-4" role="status"></p>
+    <div id="search-results" class="mt-4 flex flex-col gap-3"></div>
+</section>
