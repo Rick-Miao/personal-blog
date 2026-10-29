@@ -11,12 +11,13 @@ export function initializeLogin(onLoginSuccess: () => Promise<void>) {
 	form.dataset.initialized = "true";
 
 	function updateLoginUI() {
+		if (!form || !message) return;
 		if (pb.authStore.isValid && pb.authStore.record) {
-			form?.classList.add("hidden");
-			message!.textContent = `已登录: ${pb.authStore.record.name || "管理员"}`;
+			form.classList.add("hidden");
+			message.textContent = `已登录: ${pb.authStore.record.name || "管理员"}`;
 		} else {
-			form?.classList.remove("hidden");
-			message!.textContent = "请登录管理账号.";
+			form.classList.remove("hidden");
+			message.textContent = "请登录管理账号.";
 		}
 	}
 
