@@ -1,0 +1,71 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+const pageTitle = "我的小说书架";
+const pageDescription = "记录我读过、正在读和想读的小说。";
+---
+
+
+<MainGridLayout title={pageTitle} description={pageDescription}>
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full text-neutral-900 dark:text-neutral-100">
+            <h1 class="text-3xl font-bold mb-3">{pageTitle}</h1>
+            <p class="text-[var(--text-2)] mb-6">{pageDescription}</p>
+
+            <div id="book-list" class="flex flex-col gap-4">
+                正在加载收藏……
+            </div>
+        </div>
+    </div>
+</MainGridLayout>
+
+
+<style is:global>
+    #book-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+        gap: 1.25rem;
+    }
+
+    #book-list .book-card {
+        min-width: 0;
+        max-width: 200px;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        background: var(--card-bg);
+        transition: transform 0.2s ease;
+    }
+
+    #book-list .book-card:hover {
+        transform: translateY(-4px);
+    }
+
+    #book-list .book-cover {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+
+    #book-list .book-title {
+        margin-top: 0.6rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: inherit;
+    }
+
+    #book-list .book-status {
+        margin-top: 0.35rem;
+        font-size: 0.75rem;
+        opacity: 0.7;
+    }
+
+    #book-list .book-score {
+        margin-top: 0.25rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+</style>
